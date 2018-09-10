@@ -1,9 +1,14 @@
 
 import java.util.function.*;
 import java.util.*;
+
+enum GradientDescentChoice{
+	STOCHASTIC,BATCH
+}
 public class LinearRegression
 {
 
+	
 	private double  slope;
 
 	private double yintercept;
@@ -17,11 +22,11 @@ public class LinearRegression
 	
 	private double[][] trainingSet;
 	
-	private String gradientChoice;
+	private GradientDescentChoice gradientChoice;
 	
-	private static final String choice = "Stochastic";
+	//private static final String choice = "Stochastic";
 	
-	public LinearRegression(double[] [] set,int epoch,String gradientChoice)
+	public LinearRegression(double[] [] set,int epoch,GradientDescentChoice gradientChoice)
 	{
 		this.trainingSet=set;
 		
@@ -35,7 +40,7 @@ public class LinearRegression
 	
 	private final void trainModel()
 	{
-		if(choice.equalsIgnoreCase(this.gradientChoice))
+		if(GradientDescentChoice.STOCHASTIC.equals((this.gradientChoice)))
 		{
 			stochasticGradientDescent();
 		}else
