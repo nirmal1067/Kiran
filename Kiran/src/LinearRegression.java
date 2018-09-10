@@ -1,3 +1,6 @@
+
+import java.util.function.*;
+import java.util.*;
 public class LinearRegression
 {
 
@@ -11,9 +14,39 @@ public class LinearRegression
 
 	// I have kept it as 50 but it can user supplied as well.
 	private int epoch=50;
+	
+	private double[][] trainingSet;
+	
+	private String gradientChoice;
+	
+	private static final String choice = "Stochastic";
+	
+	public LinearRegression(double[] [] set,int epoch,String gradientChoice)
+	{
+		this.trainingSet=set;
+		
+		this.epoch = epoch>0?epoch:this.epoch;
+		
+		this.gradientChoice=gradientChoice;
+		
+		trainModel();
+	}
+	
+	
+	private final void trainModel()
+	{
+		if(choice.equalsIgnoreCase(this.gradientChoice))
+		{
+			stochasticGradientDescent();
+		}else
+		{
+			batchGradientDescent();
+		}
+		
+	}
 
 
-	public void trainAlgorithm(double[][] trainingSet)
+	private void batchGradientDescent()
 	{
 		for(int i=0;i<epoch;i++)
 		{
@@ -34,6 +67,26 @@ public class LinearRegression
 
 		//slope= slope - learningRate*
 	}
+	
+	
+	private void stochasticGradientDescent()
+	{
+		for(int i =0;i<epoch*100;i++)
+		{
+			//int randomIndex = Math.r
+			
+			Random random = new Random();
+			int randomIndex = random.nextInt(trainingSet.length);
+			
+			double slopeGradient = derivativeWithRespectToSlope(trainingSet[randomIndex][0],trainingSet[randomIndex][1],slope,yintercept);
+			double interceptGradient = derivativeWithRespectToSlope(trainingSet[randomIndex][0],trainingSet[randomIndex][1],slope,yintercept);
+			
+			this.slope = slope - learningRate*slopeGradient;
+			this.yintercept= yintercept-learningRate*interceptGradient;
+			
+			this.yintercept= yintercept-learningRate*interceptGradient;
+		}
+	}
 
 
 	private double derivativeWithRespectToSlope(Double actual,Double x,Double slope,Double intercept)
@@ -49,5 +102,12 @@ public class LinearRegression
 
 		return derivative;
 	}
+	
+	
+	public double predict(double predictForValue)
+	{
+		return  yintercept+(slope*predictForValue);
+	}
+	
 
 }
