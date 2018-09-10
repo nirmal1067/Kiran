@@ -96,14 +96,14 @@ public class LinearRegression
 
 	private double derivativeWithRespectToSlope(Double actual,Double x,Double slope,Double intercept)
 	{
-		double derivative=0;
+		double derivative= 2*x*(slope*x+intercept-actual);
 
 		return derivative;
 	}
 
 	private double derivativeWithRespectToIntercept(Double actual,Double x,Double slope,Double intercept)
 	{
-		double derivative=0;
+		double derivative=2*(actual-slope*x-intercept);
 
 		return derivative;
 	}
